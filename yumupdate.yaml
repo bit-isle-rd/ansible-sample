@@ -1,0 +1,6 @@
+- hosts: all
+  remote_user: cloud-user
+  sudo: yes
+  tasks:
+  - name: update packages
+    yum: pkg=* state=latest

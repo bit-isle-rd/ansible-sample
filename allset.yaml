@@ -1,0 +1,45 @@
+---
+- hosts: webservers
+  vars:
+    http_port: 80
+    max_clients: 200
+  remote_user: cloud-user 
+  sudo: yes
+  tasks:
+  - name: ensure apache is at the latest version
+    yum: pkg=httpd state=latest
+  - name: write the apache config file
+    template: src=templates/httpd.conf dest=/etc/httpd/conf/httpd.conf
+    notify:
+    - restart apache
+  - name: write the apache welcom file
+    template: src=templates/index.html dest=/var/www/html/index.html
+
+  - name: ensure apache is running
+    service: name=httpd state=started
+  handlers:
+    - name: restart apache
+      service: name=httpd state=restarted
+
+- hosts: loadbalancers
+  vars:
+    forward_port: 80
+    open_port: 80
+  remote_user: cloud-user
+  sudo: yes
+  tasks:
+  - name: ensure epel repository
+    yum: pkg=epel-release state=latest 
+  - name: ensure nginx package
+    yum: pkg=nginx state=latest
+  - name: write the nginx config file
+    template: src=templates/lbs.conf dest=/etc/nginx/conf.d/default.conf
+    notify:
+    - restart nginx
+  - name: ensure nginx is running
+    service: name=nginx state=started
+  handlers:
+    - name: restart nginx
+      service: name=nginx state=restarted
+
+- include: stopfw.yaml

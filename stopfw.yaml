@@ -1,0 +1,6 @@
+- hosts: all
+  remote_user: cloud-user
+  sudo: yes
+  tasks:
+  - name: ensure iptables is stop
+    service: name=iptables state=stopped
