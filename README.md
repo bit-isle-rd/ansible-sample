@@ -3,10 +3,10 @@ ansible-sample
 
 * ansible のインストール方法(CentOS6)
 
- ```shell
+```shell
  # sudo yum install epel-release
  # sudo yum install ansible
- ```
+```
 
 * ansible の実行方法
 
