@@ -4,8 +4,8 @@ ansible-sample
 * ansible のインストール方法(CentOS6)
 
  ```shell
-   sudo yum install epel-release
-   sudo yum install ansible
+ # sudo yum install epel-release
+ # sudo yum install ansible
  ```
 
 * ansible の実行方法
